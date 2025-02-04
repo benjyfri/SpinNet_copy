@@ -77,6 +77,7 @@ def prepare_patch(pcdpath, filename, keyptspath, trans_matrix):
 
 
 def generate_descriptor(model, desc_name, pcdpath, keyptspath, descpath):
+    torch.cuda.empty_cache()
     model.eval()
     num_frag = len(os.listdir(pcdpath))
     num_desc = len(os.listdir(descpath))
@@ -94,8 +95,8 @@ def generate_descriptor(model, desc_name, pcdpath, keyptspath, descpath):
         desc_list = []
         start_time = time.time()
         desc_len = 32
-        step_size = 100
-        iter_num = np.int(np.ceil(B / step_size))
+        step_size = 32
+        iter_num = int(np.ceil(B / step_size))
         for k in range(iter_num):
             if k == iter_num - 1:
                 desc = model(input_[k * step_size:, :, :])
@@ -138,7 +139,7 @@ if __name__ == '__main__':
     module_spec.loader.exec_module(module)
     model = module.Descriptor_Net(0.30, 9, 80, 40, 0.04, 30, '3DMatch')
     model = nn.DataParallel(model, device_ids=[0])
-    model.load_state_dict(torch.load('../../pre-trained_models/3DMatch_best.pkl'))
+    model.load_state_dict(torch.load('../../pre-trained_models/3DMatch_best.pkl',weights_only=True))
 
     all_trans_matrix = {}
     is_rotate_dataset = False
