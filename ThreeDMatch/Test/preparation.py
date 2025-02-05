@@ -129,6 +129,7 @@ if __name__ == '__main__':
 
     experiment_id = time.strftime('%m%d%H%M')
     model_str = experiment_id  # sys.argv[1]
+    model_str = f"first_try"
     if not os.path.exists(f"SpinNet_desc_{model_str}/"):
         os.mkdir(f"SpinNet_desc_{model_str}")
 

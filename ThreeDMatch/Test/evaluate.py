@@ -137,7 +137,8 @@ if __name__ == '__main__':
         'sun3d-mit_lab_hj-lab_hj_tea_nov_2_2012_scan1_erika'
     ]
     desc_name = 'SpinNet'
-    timestr = sys.argv[1]
+    # timestr = sys.argv[1]
+    timestr = f"first_try"
     inliers_list = []
     recall_list = []
     inliers_ratio_list = []
