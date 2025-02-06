@@ -54,6 +54,7 @@ def build_patch_input(pcd, keypts, vicinity=0.3, num_points_per_patch=2048):
 def prepare_patch(pcdpath, filename, keyptspath, trans_matrix):
     pcd = get_pcd(pcdpath, filename)
     keypts = get_keypts(keyptspath, filename)
+    keypts = keypts+np.random.normal(loc=0, scale=0.1, size=keypts.shape)
     # load D3Feat keypts
     if is_D3Feat_keypts:
         keypts_path = './D3Feat_contralo-54-pred/keypoints/' + pcdpath.split('/')[-2] + '/' + filename + '.npy'
@@ -87,8 +88,6 @@ def generate_descriptor(model, desc_name, pcdpath, keyptspath, descpath):
         return
     for j in range(num_frag):
         local_patches = prepare_patch(pcdpath, 'cloud_bin_' + str(j), keyptspath, trans_matrix)
-        noise = np.random.normal(loc=0, scale=0.01, size=local_patches.shape)
-        local_patches_noisy = local_patches + noise
         input_ = torch.tensor(local_patches.astype(np.float32))
         B = input_.shape[0]
         input_ = input_.cuda()
