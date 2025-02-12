@@ -87,7 +87,8 @@ def generate_descriptor(model, desc_name, pcdpath, keyptspath, descpath):
         return
     for j in range(num_frag):
         local_patches = prepare_patch(pcdpath, 'cloud_bin_' + str(j), keyptspath, trans_matrix)
-        local_patches = local_patches + np.random.normal(loc=0, scale=0.1, size=local_patches.shape)
+        # local_patches = local_patches + np.random.normal(loc=0, scale=0.1, size=local_patches.shape)
+        local_patches = local_patches + np.random.normal(loc=0, scale=0.05, size=local_patches.shape)
         input_ = torch.tensor(local_patches.astype(np.float32))
         B = input_.shape[0]
         input_ = input_.cuda()
