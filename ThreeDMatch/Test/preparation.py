@@ -142,7 +142,8 @@ if __name__ == '__main__':
     model = module.Descriptor_Net(0.30, 9, 80, 40, 0.04, 30, '3DMatch')
     model = nn.DataParallel(model, device_ids=[0])
     model.load_state_dict(torch.load('../../pre-trained_models/3DMatch_best.pkl',weights_only=True))
-
+    num_params = sum(p.numel() for p in model.parameters())
+    print(f'Num of parameters in NN: {num_params}')
     all_trans_matrix = {}
     is_rotate_dataset = False
     is_D3Feat_keypts = False
